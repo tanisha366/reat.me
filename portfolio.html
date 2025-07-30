@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tanisha Bhardwaj ⚡ Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.11.1/tsparticles.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+    body { font-family:'Poppins',sans-serif; background:linear-gradient(to right,#0f2027,#203a43,#2c5364); color:#fff; }
+    h1,h2 { font-family:'Orbitron',sans-serif; text-transform:uppercase; }
+    nav { display:flex; justify-content:space-between; align-items:center; padding:20px 40px; background:#0a0a0a; border-bottom:1px solid #222; position:sticky; top:0; z-index:10; }
+    nav h1 { color:#00ff88; }
+    nav ul { display:flex; list-style:none; gap:25px; }
+    nav ul li a { color:#ccc; text-decoration:none; font-weight:500; transition:color .3s; }
+    nav ul li a:hover { color:#00ff88; }
+    .hero { position:relative; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; padding:0 40px; min-height:100vh; overflow:hidden; background:linear-gradient(to right,#0f2027,#203a43,#2c5364); }
+    #hero-particles { position:absolute; width:100%; height:100%; z-index:0; }
+    .hero-left, .hero-right { z-index:2; }
+    .hero-left { flex:1; min-width:300px; }
+    .hero-left h2 { font-size:3rem; color:#00ff88; margin-bottom:10px; height:3rem; }
+    .typing { white-space: nowrap; overflow: hidden; }
+    .hero-left p { font-size:1.1rem; margin-bottom:20px; color:#ccc; }
+    .hero-left button { padding:12px 24px; background:#00ff88; color:#000; font-weight:bold; border:none; border-radius:10px; cursor:pointer; transition:.3s; box-shadow:0 0 10px #00ff88; }
+    .hero-left button:hover { background:#00cc66; color:#fff; }
+    .hero-right { flex:1; display:flex; justify-content:center; align-items:center; min-width:280px; margin-top:30px; }
+    .profile-pic {
+      width:250px;
+      height:250px;
+      border-radius:50%;
+      border:5px solid #00ff88;
+      box-shadow:0 0 25px #00ff88;
+      object-fit:cover;
+      aspect-ratio: 1/1;
+    }
+    .section { padding:60px 20px; max-width:1000px; margin:auto; text-align:center; }
+    .card { background:#1e1e2f; border-radius:20px; padding:25px; margin:20px auto; box-shadow:0 10px 25px rgba(255,255,255,.1); transition:transform .3s, box-shadow .3s; width:90%; border:3px solid transparent; }
+    .card:hover { transform:scale(1.05); box-shadow:0 0 25px #00f2ff; border-color:#00f2ff; }
+    .card h2 { margin-bottom:10px; color:#00f2ff; }
+    .card p { font-size:1rem; color:#ddd; }
+    .skills { display:flex; flex-wrap:wrap; justify-content:center; }
+    .skill { background:#ff00ff; color:white; padding:12px 25px; margin:10px; border-radius:30px; font-weight:bold; box-shadow:0 5px 15px rgba(255,0,255,0.5); transition:.3s; }
+    .skill:hover { background:#00e0ff; transform:scale(1.1); box-shadow:0 0 20px #00e0ff; }
+    button, .submit-btn { padding:12px 24px; background:#38f9d7; color:#000; border:none; font-size:1rem; border-radius:12px; margin-top:15px; cursor:pointer; transition:.3s; box-shadow:0 0 10px #38f9d7; }
+    button:hover, .submit-btn:hover { background:#43e97b; color:#fff; box-shadow:0 0 15px #43e97b; }
+    form { display:flex; flex-direction:column; gap:15px; align-items:center; margin-top:20px; }
+    input, textarea { width:90%; max-width:400px; padding:10px; border-radius:8px; border:none; }
+    footer { background:#0d1117; color:#aaa; text-align:center; padding:20px; font-size:.9rem; margin-top:40px; }
+    blockquote { margin-top:15px; font-size:1.05rem; font-style:italic; color:#c9c9c9; }
+    footer a { color:#00ffcc; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>CyberDev</h1>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const clickSound = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
+    clickSound.volume = 0.6;
+
+    const playClick = () => {
+      clickSound.currentTime = 0;
+      clickSound.play();
+    };
+
+    const Card = ({ title, content, extra }) => {
+      const [showMore, set] = React.useState(false);
+      return (
+        <div className="card" id={title.toLowerCase().replace(/\s/g,"")}>
+          <h2>{title}</h2>
+          <p>{content}</p>
+          { showMore && <blockquote>{extra}</blockquote> }
+          <button onClick={() => { playClick(); set(!showMore); }}>
+            {showMore ? "Show Less" : "Click Me"}
+          </button>
+        </div>
+      );
+    };
+
+    const Skills = () => (
+      <div className="section" id="skills">
+        <h2>My Skills</h2>
+        <div className="skills">
+          {["HTML","CSS","JavaScript","React","GitHub","Figma","Bootstrap","Tailwind"].map(skill =>
+            <div className="skill" key={skill}>{skill}</div>
+          )}
+        </div>
+      </div>
+    );
+
+    const App = () => {
+      const title = "Full‑Stack Developer";
+      const [typed, setTyped] = React.useState("");
+      React.useEffect(() => {
+        let i = 0;
+        const interval = setInterval(() => {
+          setTyped(title.slice(0, i + 1));
+          i++;
+          if (i >= title.length) clearInterval(interval);
+        }, 100);
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <div>
+          <div className="hero" id="home">
+            <div id="hero-particles"></div>
+            <div className="hero-left">
+              <h2 className="typing">{typed}</h2>
+              <p>Building digital experiences that merge creativity with technology</p>
+              <p>Specializing in modern web development and cyber systems</p>
+              <button onClick={() => { playClick(); document.getElementById("contact").scrollIntoView({ behavior:"smooth" }); }}>
+                Let's Connect
+              </button>
+            </div>
+            <div className="hero-right">
+              <img className="profile-pic" src="https://i.ibb.co/Wv7g63ym/Whats-App-Image-2025-07-29-at-7-57-13-PM.jpg"
+
+ alt="Profile"/>
+            </div>
+          </div>
+
+          <div className="section" id="projects">
+            <Card title="About Me" content="I'm Tanisha Bhardwaj, a passionate student pursuing BCA at Eternal University. I love coding, design, AI tools, and building cool projects with React!" extra="Beyond frontend, I'm exploring backend concepts and product thinking to become a well-rounded developer 💻✨"/>
+            <Card title="Projects" content="I've created an e‑commerce site, a full puzzle game, and AI‑powered presentations." extra="Projects include: Lil Storm Smart Mart ⚡, Mystery Puzzle Escape, Gamma AI presentations, and more!"/>
+            <Card title="Certifications" content="Certified in IBM Product Management (Coursera), AI for Content Creation, hands‑on with Gamma, Canva, ElevenLabs." extra="Also completed product strategy courses and actively practicing DOM + React through real‑world apps"/>
+            <Card title="Education" content="Currently pursuing my Bachelor of Computer Applications (BCA) from Eternal University." extra="Special interests: JavaScript, React, AI tools, and ethical tech development 📚"/>
+            <Card title="Quote" content="“I'm not just building websites — I'm crafting digital magic that connects people, solves problems, and makes life better.”" extra="This is my personal motto & design philosophy 💡"/>
+            <button className="submit-btn" onClick={() => { playClick(); window.open('https://www.canva.com/design/DAGfDVA9slo/UxKfN35eCBJp0efT5dsdyA/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0'); }}>
+              Download Resume
+            </button>
+          </div>
+
+          <Skills />
+
+          <div className="section" id="contact">
+            <h2>Contact Me</h2>
+            <p>Have an idea? Want to collaborate? Let’s talk 💬</p>
+            <form onSubmit={e => {
+              e.preventDefault();
+              playClick();
+              alert("Thanks! Message sent.");
+              e.target.reset(); // Clears the fields
+            }}>
+              <input type="text" placeholder="Your Name" required onClick={playClick}/>
+              <textarea placeholder="Your Message" rows="4" required onClick={playClick}></textarea>
+              <button type="submit" className="submit-btn">Submit</button>
+            </form>
+          </div>
+
+          <footer>
+            © 2025 Tanisha Bhardwaj • Built with 💖 using React, Babel & Vanilla CSS <br/>
+            Let’s connect on <a href="https://www.linkedin.com/in/tanisha-bhardwaj-69350635a/" target="_blank">LinkedIn</a> ⚡
+          </footer>
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
